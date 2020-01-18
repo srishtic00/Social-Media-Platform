@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
-const expressJwt=require('express-jwt')
+const expressJwt=require('express-jwt')//Middleware that validates JsonWebTokens and sets req.user.
 const User = require('../models/user')
 
 exports.signup = async(req,res) => {

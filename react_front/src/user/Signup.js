@@ -8,12 +8,14 @@ class Signup extends Component
             name:"",
             email:"",
             password:"",
-            error:""
+            error:"",
+            open:false
         }
         this.handleChange = this.handleChange.bind(this);
 
     }
     handleChange=(name)=>event=>{
+        this.setState({error:""});
         this.setState({[name]:event.target.value})
     }
 
@@ -31,7 +33,8 @@ class Signup extends Component
                 error:"",
                 name:"",
                 email:"",
-                password:""
+                password:"",
+                open:true
             })
         })
 
@@ -52,11 +55,18 @@ class Signup extends Component
 
 
     render(){
-        const {name,email,password}=this.state
+        const {name,email,password,error,open}=this.state
         return(
             <div className='container'>
                 <h2 className="mt-5 mb-5" >Signup</h2>
+            <div className='alert alert-danger' style={{display:error ? "":"none"}}>
+                {error}
 
+            </div>
+            <div className='alert alert-info' style={{display:open?"":"none"}}>
+                Signup Successful.Please Sign In.
+
+            </div>
                 <form>
                     <div className="form-group">
                         <label className="text-muted">Name</label>

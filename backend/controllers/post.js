@@ -1,7 +1,7 @@
 const Post = require('../models/post')
-const formidable=require('formidable')
+const formidable=require('formidable')//uploading and encoding images
 const fs=require('fs')
-const _=require('lodash')
+const _=require('lodash')//updation
 
 exports.postById=(req,res,next,id)=>{
     Post.findById(id)

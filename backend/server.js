@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const expressValidator = require('express-validator')
-const fs=require('fs')
+const morgan = require('morgan');//to configure the logging output
+const bodyParser = require('body-parser');//parsing incoming request body
+const cookieParser = require('cookie-parser');//parse http request cookies
+const expressValidator = require('express-validator')//middleware for validation v5.3.1 
+const fs=require('fs')//file system
 
-const cors = require('cors');
+const cors = require('cors');//cross origin resource sharing 
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -41,7 +41,7 @@ app.get('/',(req,res)=>{
 })
 
 //middleware
-app.use(morgan('dev'));
+app.use(morgan('dev'));//concise output with response status
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(expressValidator())

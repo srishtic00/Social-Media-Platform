@@ -1,4 +1,4 @@
-const _=require('lodash')
+const _=require('lodash')//updation and modularity ,to maintain consistency
 const User = require('../models/user')
 
 exports.userById = (req,res,next,id)=>{
