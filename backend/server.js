@@ -19,7 +19,7 @@ const userRoutes = require('./routes/user');
 
 mongoose
     .connect(process.env.ATLAS_URI, {
-        useNewUrlParser: true
+        useNewUrlParser: true,useUnifiedTopology: true
     })
     .then(() => console.log('DB Connected'));
 
