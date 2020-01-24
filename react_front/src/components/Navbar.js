@@ -45,7 +45,9 @@ const Header=({history})=>  (
           )}
 
           {isAuthenticated() && (
-            <ul className="nav navbar-nav navbar-right d-flex flex-row justify-content-around">
+            <ul className="nav navbar-nav navbar-right d-flex flex-row justify-content-between">
+              <li><Link to='/posts'><button style={{color:"white"}} className='btn btn-default btn-inverse'>All Post</button></Link></li>
+              <li><Link to='/post/create'><button style={{color:"white"}} className='btn btn-default btn-inverse'>Create Post</button></Link></li>
             <li><Link to='/users'><button style={{color:"white"}} className='btn btn-default btn-inverse'>All Users</button></Link></li>
             <li><Link to='/findpeople'><button style={{color:"white"}} className='btn btn-default btn-inverse'>Find People</button></Link></li>
             <li><Link to={`/user/${isAuthenticated().user._id}`}><button style={{color:"white"}} className='btn btn-default btn-inverse'>{isAuthenticated().user.name}</button></Link></li>

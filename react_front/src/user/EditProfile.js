@@ -196,10 +196,8 @@ class EditProfile extends Component {
         </div>
 
         {loading ? (
-          <div class="text-center">
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
+          <div class="spinner-grow text-dark" role="status">
+          <span class="sr-only">Loading...</span>
         </div>) : (
           ""
         )}

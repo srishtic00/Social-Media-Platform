@@ -13,6 +13,8 @@ import PrivateRoute from './auth/PrivateRoute'
 import FollowingList from './user/FollowingList'
 import FollowerList from './user/FollowerList'
 import NewPost from './post/NewPost'
+import SinglePost from './post/SinglePost'
+import Posts from './post/Posts'
 
 
 const MainRouter=()=>(
@@ -20,6 +22,8 @@ const MainRouter=()=>(
         <Nav />
         <Switch>
             <Route exact path='/' component={Home}/>
+            <Route exact path='/post/:postId' component={SinglePost}/>
+            <Route exact path='/posts' component={Posts}/>
             <Route exact path='/users' component={Users}/>
             <Route exact path='/signup' component={Signup}/>
             <Route exact path='/signin' component={Signin}/>
@@ -28,7 +32,7 @@ const MainRouter=()=>(
             <PrivateRoute exact path='/following' component={FollowingList}/>
             <PrivateRoute exact path='/followers' component={FollowerList}/>
             <PrivateRoute exact path='/user/:userId' component={Profile}/>
-            <PrivateRoute exact path='/create/post' component={NewPost}/>
+            <PrivateRoute exact path='/post/create' component={NewPost}/>
 
 
         </Switch>

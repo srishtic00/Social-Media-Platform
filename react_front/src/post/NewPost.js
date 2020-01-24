@@ -60,6 +60,7 @@ class NewPost extends Component {
             create(userId, token, this.postData).then(data => {
                 if (data.error) this.setState({ error: data.error });
                 else {
+                    // console.log(data)
                     this.setState({
                         loading: false,
                         title: "",
