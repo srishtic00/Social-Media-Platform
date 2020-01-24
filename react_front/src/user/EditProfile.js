@@ -196,10 +196,11 @@ class EditProfile extends Component {
         </div>
 
         {loading ? (
-          <div className="jumbotron text-center">
-            <h2>Loading...</h2>
+          <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
           </div>
-        ) : (
+        </div>) : (
           ""
         )}
 

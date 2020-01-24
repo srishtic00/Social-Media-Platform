@@ -5,6 +5,10 @@ import {  MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBCol 
 import '../components/header.css'
 import DeleteUser from './deleteUser'
 import DefaultProfile from "../images/user2.png";
+import FollowProfileButton from './FollowProfileButton.js'
+import {read} from './apiUser'
+import ProfileTabs from './ProfileTabs.js'
+
 
 // import EditProfile from './EditProfile'
 
@@ -12,50 +16,54 @@ class Profile extends Component{
     constructor(){
         super()
         this.state={
-            user:"",
-            redirectToSignin:false
+            user:{following:[],followers:[]},
+            redirectToSignin:false,
+            following:false,
+            error:""
         }
     }
-    componentDidMount(){
-        const userId=this.props.match.params.userId
-        fetch(`http://localhost:5000/user/${userId}`,{
-            method:"GET",
-            headers:{
-                Accept:"application/json",
-                "Content-Type":"application/json",
-                Authorization:`Bearer ${isAuthenticated().token}`
-            }
+    checkFollow=user=>{
+        const jwt=isAuthenticated()
+        const match=user.followers.find(follower=>{
+            return follower._id===jwt.user._id
         })
-        .then(response=>{
-            return response.json()
-        })
-        .then(data=>{
-            if(data.error)
-            this.setState({redirectToSignin:true})
-            else
-            this.setState({user:data})
-        })
+        return match
+
     }
-    componentWillReceiveProps(props){
-        const userId=props.match.params.userId
-        fetch(`http://localhost:5000/user/${userId}`,{
-            method:"GET",
-            headers:{
-                Accept:"application/json",
-                "Content-Type":"application/json",
-                Authorization:`Bearer ${isAuthenticated().token}`
-            }
-        })
-        .then(response=>{
-            return response.json()
-        })
-        .then(data=>{
-            if(data.error)
-            this.setState({redirectToSignin:true})
-            else
-            this.setState({user:data})
-        })  
-    }
+    clickFollowButton = callApi => {
+        const userId = isAuthenticated().user._id;
+        const token = isAuthenticated().token;
+    
+        callApi(userId, token, this.state.user._id)
+        .then(data => {
+          if (data.error) {
+            this.setState({ error: data.error });
+          } else {
+            this.setState({ user: data, following: !this.state.following });
+          }
+        });
+      };
+      init = userId => {
+        const token = isAuthenticated().token;
+        read(userId, token).then(data => {
+          if (data.error) {
+            this.setState({ redirectToSignin: true });
+          } else {
+            let following = this.checkFollow(data);
+            this.setState({ user: data, following });
+            // this.loadPosts(data._id);
+          }
+        });
+      };
+      componentDidMount() {
+        const userId = this.props.match.params.userId;
+        this.init(userId);
+      }
+    
+      componentWillReceiveProps(props) {
+        const userId = props.match.params.userId;
+        this.init(userId);
+      }
     render(){
         const {redirectToSignin,user}=this.state
         if(redirectToSignin)
@@ -71,7 +79,7 @@ class Profile extends Component{
                 <div style={{margin:"25px"}} className='col-md-5'>
             <MDBCol className="text-center">
       <MDBCard style={{ width: "22rem" }}>
-        <MDBCardImage className="img-fluid" src={photoUrl} onError={i=>(i.target.src=`${DefaultProfile}`)} waves />
+        <MDBCardImage className="img-fluid" style={{width:"80%"}} src={photoUrl} onError={i=>(i.target.src=`${DefaultProfile}`)} waves />
         <MDBCardBody>
           <MDBCardTitle>{user.name}</MDBCardTitle>
           <MDBCardText>
@@ -86,13 +94,18 @@ class Profile extends Component{
         <hr />
     <p className='lead'>{user.about}</p>
     <hr />
+    <ProfileTabs
+              followers={user.followers}
+              following={user.following}
+              
+            />
     </div>
     <div className='col-md-6' style={{marginTop:"20px",marginLeft:"25px"}}>
-        {isAuthenticated().user && isAuthenticated().user._id===user._id && 
+        {isAuthenticated().user && isAuthenticated().user._id===user._id ?
         (<ul className="nav navbar-nav navbar-right d-flex flex-row justify-content">
         <li><Link to={`/user/edit/${user._id}`}><button className='btn btn-raised btn-success active'>Edit Profile</button></Link></li>
         <li><DeleteUser userId={user._id} /></li>
-        </ul>)
+        </ul>):<FollowProfileButton following={this.state.following} onButtonClick={this.clickFollowButton} />
         }    
     </div>
     

@@ -16,10 +16,10 @@ export default class Main extends Component {
     
       <div  className="container bg">
         <div className="row">
-          <div className="col">
-            <a href="/"> <img className="image" src={main} margin="0px" alt="alterate text" /></a>
+          <div className="container col" style={{width:"50%"}}>
+            <a href="/"> <img className="image" src={main} style={{width:"100%"}} margin="0px" alt="alterate text" /></a>
           </div>
-          <div className="col">
+          <div className="col" style={{width:"50%"}}>
               <div className="StaticLoggedOutHomePage-communicationContent">
                   <div className="StaticLoggedOutHomePage-communicationItem">
                       {/* <span role="img">&#x1F465;&nbsp;</span> */}

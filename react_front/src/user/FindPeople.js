@@ -1,19 +1,24 @@
-  
 import React, { Component } from "react";
-import { list } from "./apiUser";
+import { findPeople, follow } from "./apiUser";
 import DefaultProfile from "../images/user2.png";
 import { Link } from "react-router-dom";
+import { isAuthenticated } from "../auth";
 
-class Users extends Component {
+class FindPeople extends Component {
     constructor() {
         super();
         this.state = {
-            users: []
+            users: [],
+            error: "",
+            open: false
         };
     }
 
     componentDidMount() {
-        list().then(data => {
+        const userId = isAuthenticated().user._id;
+        const token = isAuthenticated().token;
+
+        findPeople(userId, token).then(data => {
             if (data.error) {
                 console.log(data.error);
             } else {
@@ -21,6 +26,25 @@ class Users extends Component {
             }
         });
     }
+
+    clickFollow = (user, i) => {
+        const userId = isAuthenticated().user._id;
+        const token = isAuthenticated().token;
+
+        follow(userId, token, user._id).then(data => {
+            if (data.error) {
+                this.setState({ error: data.error });
+            } else {
+                let toFollow = this.state.users;
+                toFollow.splice(i, 1);
+                this.setState({
+                    users: toFollow,
+                    open: true,
+                    followMessage: `Following ${user.name}`
+                });
+            }
+        });
+    };
 
     renderUsers = users => (
         <div className="row">
@@ -44,6 +68,13 @@ class Users extends Component {
                         >
                             View Profile
                         </Link>
+
+                        <button
+                            onClick={() => this.clickFollow(user, i)}
+                            className="btn btn-raised btn-info float-right btn-sm"
+                        >
+                            Follow
+                        </button>
                     </div>
                 </div>
             ))}
@@ -51,10 +82,14 @@ class Users extends Component {
     );
 
     render() {
-        const { users } = this.state;
+        const { users, open, followMessage } = this.state;
         return (
             <div className="container">
-                <h2 className="mt-5 mb-5">Users</h2>
+                <h2 className="mt-5 mb-5">Find People</h2>
+
+                {open && (
+                    <div className="alert alert-success">{followMessage}</div>
+                )}
 
                 {this.renderUsers(users)}
             </div>
@@ -62,4 +97,4 @@ class Users extends Component {
     }
 }
 
-export default Users;
+export default FindPeople;

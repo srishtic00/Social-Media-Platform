@@ -8,7 +8,12 @@ import Footer from './components/Footer'
 import Profile from './user/Profile'
 import Users from './user/Users'
 import EditProfile from './user/EditProfile'
+import FindPeople from './user/FindPeople'
 import PrivateRoute from './auth/PrivateRoute'
+import FollowingList from './user/FollowingList'
+import FollowerList from './user/FollowerList'
+import NewPost from './post/NewPost'
+
 
 const MainRouter=()=>(
     <div className='container'>
@@ -19,7 +24,12 @@ const MainRouter=()=>(
             <Route exact path='/signup' component={Signup}/>
             <Route exact path='/signin' component={Signin}/>
             <PrivateRoute exact path='/user/edit/:userId' component={EditProfile}/>
+            <PrivateRoute exact path='/findpeople' component={FindPeople}/>
+            <PrivateRoute exact path='/following' component={FollowingList}/>
+            <PrivateRoute exact path='/followers' component={FollowerList}/>
             <PrivateRoute exact path='/user/:userId' component={Profile}/>
+            <PrivateRoute exact path='/create/post' component={NewPost}/>
+
 
         </Switch>
         <Footer />
