@@ -8,7 +8,7 @@ import DefaultProfile from "../images/user2.png";
 import FollowProfileButton from './FollowProfileButton.js'
 import {read} from './apiUser'
 import ProfileTabs from './ProfileTabs.js'
-
+import {listByUser} from '../post/apiPost'
 
 // import EditProfile from './EditProfile'
 
@@ -19,7 +19,8 @@ class Profile extends Component{
             user:{following:[],followers:[]},
             redirectToSignin:false,
             following:false,
-            error:""
+            error:"",
+            posts:[]
         }
     }
     checkFollow=user=>{
@@ -51,7 +52,17 @@ class Profile extends Component{
           } else {
             let following = this.checkFollow(data);
             this.setState({ user: data, following });
-            // this.loadPosts(data._id);
+            this.loadPosts(data._id);
+          }
+        });
+      };
+      loadPosts = userId => {
+        const token = isAuthenticated().token;
+        listByUser(userId, token).then(data => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            this.setState({ posts: data });
           }
         });
       };
@@ -65,7 +76,7 @@ class Profile extends Component{
         this.init(userId);
       }
     render(){
-        const {redirectToSignin,user}=this.state
+        const {redirectToSignin,user,posts}=this.state
         if(redirectToSignin)
         return <Redirect to='/signin' />
 
@@ -97,12 +108,13 @@ class Profile extends Component{
     <ProfileTabs
               followers={user.followers}
               following={user.following}
-              
+              posts={posts}
             />
     </div>
     <div className='col-md-6' style={{marginTop:"20px",marginLeft:"25px"}}>
         {isAuthenticated().user && isAuthenticated().user._id===user._id ?
         (<ul className="nav navbar-nav navbar-right d-flex flex-row justify-content">
+          <li><Link to={`/post/create`}><button className='btn btn-raised btn-primary active'>Create Post</button></Link></li>
         <li><Link to={`/user/edit/${user._id}`}><button className='btn btn-raised btn-success active'>Edit Profile</button></Link></li>
         <li><DeleteUser userId={user._id} /></li>
         </ul>):<FollowProfileButton following={this.state.following} onButtonClick={this.clickFollowButton} />

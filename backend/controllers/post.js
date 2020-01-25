@@ -19,7 +19,7 @@ exports.postById=(req,res,next,id)=>{
 exports.getPosts=(req,res)=>{
    const posts =Post.find()
    .populate('postedBy','_id name')
-   .select('_id title body created')
+   .select('_id title body created likes ')
    .sort({created:-1})
    .then((posts)=>{
        res.json(posts)
@@ -60,6 +60,7 @@ exports.createPost = (req,res,next) => {
 exports.postsByUser=(req,res)=>{
     Post.find({postedBy:req.profile._id })
         .populate('postedBy','_id name')
+        .select('_id title body created likes ')
         .sort('_created')
         .exec((err,posts)=>{
             if(err){
@@ -97,19 +98,50 @@ exports.deletePost=(req,res)=>{
     })
 }
 
-exports.updatePost=(req,res,next)=>{
-    let post=req.post
-    post=_.extend(post,req.body)
-    post.updated=Date.now()
-    post.save(err=>{
-        if(err){
+// exports.updatePost=(req,res,next)=>{
+//     let post=req.post
+//     post=_.extend(post,req.body)
+//     post.updated=Date.now()
+//     post.save(err=>{
+//         if(err){
+//             return res.status(400).json({
+//                 error:err
+//             })
+//         }
+//         res.json(post)
+//     })
+// }
+
+exports.updatePost = (req, res, next) => {
+    let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, (err, fields, files) => {
+        if (err) {
             return res.status(400).json({
-                error:err
-            })
+                error: 'Photo could not be uploaded'
+            });
         }
-        res.json(post)
-    })
-}
+        // save post
+        let post = req.post;
+        post = _.extend(post, fields);
+        post.updated = Date.now();
+
+        if (files.photo) {
+            post.photo.data = fs.readFileSync(files.photo.path);
+            post.photo.contentType = files.photo.type;
+        }
+
+        post.save((err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    error: err
+                });
+            }
+            res.json(post);
+        });
+    });
+    
+};
 
 exports.photo=(req,res,next)=>{
     res.set("Content-Type",req.post.photo.contentType)
@@ -239,7 +271,7 @@ exports.updateComment = (req, res) => {
 };
 
 /*
-// update commennt by Alaki
+// update commennt 
 exports.updateComment = async (req, res) => {
   const commentId = req.body.id;
   const comment = req.body.comment;

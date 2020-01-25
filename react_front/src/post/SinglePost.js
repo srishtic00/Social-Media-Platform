@@ -3,7 +3,7 @@ import { singlePost, remove, like, unlike } from './apiPost';
 import DefaultPost from '../images/light.webp';
 import { Link, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
-// import Comment from './Comment';
+import Comment from './Comment';
 
 class SinglePost extends Component {
     state = {
@@ -15,11 +15,11 @@ class SinglePost extends Component {
         comments: []
     };
 
-    // checkLike = likes => {
-    //     const userId = isAuthenticated() && isAuthenticated().user._id;
-    //     let match = likes.indexOf(userId) !== -1;
-    //     return match;
-    // };
+    checkLike = likes => {
+        const userId = isAuthenticated() && isAuthenticated().user._id;
+        let match = likes.indexOf(userId) !== -1;
+        return match;
+    };
 
     componentDidMount = () => {
         const postId = this.props.match.params.postId;
@@ -29,9 +29,10 @@ class SinglePost extends Component {
             } else {
                 this.setState({
                     post: data
-                    // ,
-                    // likes: data.likes.length,
-                    // like: this.checkLike(data.likes),
+                    ,
+                    likes: data.likes.length,
+                    like: this.checkLike(data.likes)
+                    //,
                     // comments: data.comments
                 });
             }
@@ -98,17 +99,17 @@ class SinglePost extends Component {
                     className="img-thunbnail mb-3"
                     style={{
                         height: '300px',
-                        width: '100%',
-                        objectFit: 'cover'
+                        width: '70%',
+                        objectFit: 'auto'
                     }}
                 />
-
                 {like ? (
                     <h3 onClick={this.likeToggle}>
                         <i
-                            className="fa fa-thumbs-up text-success bg-dark"
+                            className="fa fa-thumbs-up text-success bg-primary"
                             style={{ padding: '10px', borderRadius: '50%' }}
-                        />{' '}
+                        />
+                        {' '}
                         {likes} Like
                     </h3>
                 ) : (
@@ -128,7 +129,7 @@ class SinglePost extends Component {
                     on {new Date(post.created).toDateString()}
                 </p>
                 <div className="d-inline-block">
-                    <Link to={`/`} className="btn btn-raised btn-primary btn-sm mr-5">
+                    <Link to={`/posts`} className="btn btn-raised btn-primary btn-sm mr-5">
                         Back to posts
                     </Link>
 
@@ -143,7 +144,7 @@ class SinglePost extends Component {
                         </>
                     )}
 
-                    <div>
+                    {/* <div>
                         {isAuthenticated().user && isAuthenticated().user.role === 'admin' && (
                             <div class="card mt-5">
                                 <div className="card-body">
@@ -161,7 +162,7 @@ class SinglePost extends Component {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );
@@ -180,7 +181,7 @@ class SinglePost extends Component {
             <div className="container">
                 <h2 className="display-2 mt-5 mb-5">{post.title}</h2>
 
-                {/* {!post ? (
+                {!post ? (
                     <div class="spinner-grow text-dark" role="status">
                     <span class="sr-only">Loading...</span>
                   </div>
@@ -188,7 +189,7 @@ class SinglePost extends Component {
                     this.renderPost(post)
                 )}
 
-                <Comment postId={post._id} comments={comments.reverse()} updateComments={this.updateComments} /> */}
+                <Comment postId={post._id} comments={comments.reverse()} updateComments={this.updateComments} />
                 
             </div>
         );

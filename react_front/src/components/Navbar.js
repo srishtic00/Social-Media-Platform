@@ -34,8 +34,8 @@ const Header=({history})=>  (
 
       <nav className="navbar navbar-inverse bg-dark">
         <div className="navbar-header">
-            <Link className="navbar-brand" to="/"><img src={Photonova}  height="80" margin="10" alt="alterate text" /></Link>
-        </div>
+            <Link className="navbar-brand" to="/"><img src={Photonova}  height="80" width="80%" margin="10" alt="alterate text" /></Link>
+        
         {/* <ul className="nav navbar-nav navbar-right d-flex flex-row justify-content-around"> */}
           {!isAuthenticated() && (
             <ul className="nav navbar-nav navbar-right d-flex flex-row justify-content-around">
@@ -55,7 +55,7 @@ const Header=({history})=>  (
             </ul>
           )}
         {/* </ul> */}
-  
+        </div>
       </nav>
   
 )
