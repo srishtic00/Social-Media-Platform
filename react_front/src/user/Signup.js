@@ -71,15 +71,15 @@ class Signup extends Component
                 <form>
                     <div className="form-group">
                         <label className="text-muted">Name</label>
-                        <input onChange={this.handleChange('name')} type='text' className="form-control" value={name} />
+                        <input onChange={this.handleChange('name')} type='text' className="form-control" value={name} minLength="4" maxLength="15" />
                     </div>
                     <div className="form-group">
                         <label className="text-muted">Email</label>
-                        <input onChange={this.handleChange('email')} type='email' className="form-control" value={email}/>
+                        <input onChange={this.handleChange('email')} type='email' className="form-control" value={email} minLength="4" maxLength="25"/>
                     </div>
                     <div className="form-group">
                         <label className="text-muted">Password</label>
-                        <input onChange={this.handleChange('password')} type='password' className="form-control" value={password}/>
+                        <input onChange={this.handleChange('password')} type='password' className="form-control" value={password} minLength="6" maxLength="15"/>
                     </div>
                     <button onClick={this.clickSubmit} className='btn btn-raised btn-primary active'>
                         Submit

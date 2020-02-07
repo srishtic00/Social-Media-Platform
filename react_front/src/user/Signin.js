@@ -82,12 +82,12 @@ class Signin extends Component
                 <form>
                     
                     <div className="form-group">
-                        <label className="text-muted">Email</label>
-                        <input onChange={this.handleChange('email')} type='email' className="form-control" value={email}/>
+                        <label className="text-muted" >Email</label>
+                        <input onChange={this.handleChange('email')} type='email' className="form-control" minLength="4" maxLength="25" value={email}/>
                     </div>
                     <div className="form-group">
                         <label className="text-muted">Password</label>
-                        <input onChange={this.handleChange('password')} type='password' className="form-control" value={password}/>
+                        <input onChange={this.handleChange('password')} type='password' className="form-control" minLength="6" maxLength="15" value={password}/>
                     </div>
                     <button onClick={this.clickSubmit} className='btn btn-raised btn-primary'>
                         Submit

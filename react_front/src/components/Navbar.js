@@ -34,7 +34,7 @@ const Header=({history})=>  (
 
       <nav className="navbar navbar-inverse bg-dark">
         <div className="navbar-header">
-            <Link className="navbar-brand" to="/"><img src={Photonova}  height="80" width="80%" margin="10" alt="alterate text" /></Link>
+            <Link className="navbar-brand" to="/"><img src={Photonova}  height="80" width="80%" margin="5" alt="alterate text" /></Link>
         
         {/* <ul className="nav navbar-nav navbar-right d-flex flex-row justify-content-around"> */}
           {!isAuthenticated() && (
@@ -45,7 +45,7 @@ const Header=({history})=>  (
           )}
 
           {isAuthenticated() && (
-            <ul className="nav navbar-nav navbar-right d-flex flex-row justify-content-between">
+            <ul className="nav navbar-nav navbar-right d-flex flex-row justify-content-end">
               <li><Link to='/posts'><button style={{color:"white"}} className='btn btn-default btn-inverse'>All Post</button></Link></li>
               <li><Link to='/post/create'><button style={{color:"white"}} className='btn btn-default btn-inverse'>Create Post</button></Link></li>
             <li><Link to='/users'><button style={{color:"white"}} className='btn btn-default btn-inverse'>All Users</button></Link></li>

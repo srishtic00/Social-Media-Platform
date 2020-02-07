@@ -46,9 +46,10 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(expressValidator())
 app.use(cors())
-app.use('/',postRoutes)
+
 app.use('/',authRoutes)
 app.use('/',userRoutes)
+app.use('/',postRoutes)
 app.use(function(err,req,res,next)
 {
     if(err.name==='UnauthorizedError'){

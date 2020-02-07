@@ -5,10 +5,12 @@ import DefaultProfile from "../images/user2.png";
 class ProfileTabs extends Component {
     render() {
         const { following, followers,posts } = this.props;
+        // console.log(posts);
         return (
             <div>
                 <div className="row">
                     <div className="col-md-4">
+                        
                         <Link to="/followers"><h3 className="text-primary">
                             {followers.length} Followers
                         </h3></Link>
@@ -87,6 +89,7 @@ class ProfileTabs extends Component {
                                     <Link to={`/post/${post._id}`}>
                                         <div>
                                             <p className="lead">{post.title}</p>
+                                            {/* <img src={post.photo}/> */}
                                         </div>
                                     </Link>
                                 </div>
